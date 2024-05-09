@@ -3,6 +3,7 @@ import { Form, Row, Col, Button, Input} from 'antd';
 import useInput from '@hooks/useInput';
 import Title from 'antd/es/typography/Title';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 const Signup = () => {
@@ -12,7 +13,16 @@ const Signup = () => {
     const [pw, onChangePw] = useInput('');
 
     const onSubmit = useCallback(() => {
-        console.log("sign up...")
+        axios.post('/api/user', {
+            email,
+            pw
+        })
+        .then((res) => {
+            console.log("success")
+        })
+        .catch((error) => {
+            console.log(error)
+        })
     }, [email, pw])
 
     return (
