@@ -27,34 +27,36 @@ const Signup = () => {
 
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: "100vh"}}>
-        
-            <Form
-                name="normal_login"
-                className="login-form"
-                onFinish={onSubmit}
-                style={{"maxWidth": "1000px", }}
-                labelCol={{span:4}}
-                wrapperCol={{span:20}}
-                >
-                
-                <Row justify="center">
-                    <Col>
-                        <Title level={4} style={{"margin":"20px 20px"}}>Sign Up</Title>
-                    </Col>
-                </Row>
+            <div style={{borderRadius: "10px", border:"1px solid lightgray", padding: "20px 10px", position: "relative"}}>
+                <Form
+                    name="normal_login"
+                    className="login-form"
+                    onFinish={onSubmit}
+                    style={{"width": "600px", height: "250px"}}
+                    labelCol={{span:3}}
+                    wrapperCol={{span:20}}
+                    >
+                    
+                    <Row justify="center">
+                        <Col>
+                            <Title level={4} style={{margin:"20px 20px"}}>Sign Up</Title>
+                        </Col>
+                    </Row>
 
-                <Form.Item name="email" label="Email">
-                    <Input type="email" value={email} onChange={onChangeEmail} placeholder='Email'/>
-                </Form.Item>
+                    <Form.Item name="email" label="Email">
+                        <Input type="email" value={email} onChange={onChangeEmail} placeholder='Email'/>
+                    </Form.Item>
 
-                <Form.Item name="pw" label="Password">
-                    <Input type="Password" value={password} onChange={onChangePassword} placeholder='Password'/>
-                </Form.Item>
+                    <Form.Item name="pw" label="Password">
+                        <Input type="Password" value={password} onChange={onChangePassword} placeholder='Password'/>
+                    </Form.Item>
 
-                <Button type='primary' htmlType='submit' style={{"width": "100%"}}>Sign Up</Button>
-                
-            </Form>
-
+                    <div style={{width:'80%', position: 'absolute', bottom: 10, left: '50%', transform: 'translateX(-50%)' }}>
+                        <Button type='primary' htmlType='submit' style={{"width": "100%"}}>Sign Up</Button>
+                    </div>
+                    
+                </Form>
+            </div>
         </div>
     )
 }

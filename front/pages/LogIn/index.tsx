@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import axios from 'axios';
 import { Button, Col, Form, Input, Row } from 'antd';
 import Title from 'antd/es/typography/Title';
@@ -10,9 +10,14 @@ const Login = () => {
     const [email, onChangeEmail] = useInput('');
     const [password, onChangePassword] = useInput('');
 
-    const onSubmit = () => {
+    const [loginError, setLoginError] = useState(false);
+
+    const onSubmit = useCallback(() => {
+
+        setLoginError(false);
+
         axios.post('/api/user/login', {
-            "username": email,
+            "username": email, //passport-local은 username으로만 받음
             password
         })
         .then((res) => {
@@ -20,17 +25,18 @@ const Login = () => {
         })
         .catch((error) => {
             console.log(error)
+            setLoginError(error.response?.status === 401)
         })
-    }
+    }, [email, password])
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <div style={{"borderRadius": "10px", "border":"1px solid lightgray", "padding": "20px 10px"}}>
+            <div style={{"borderRadius": "10px", "border":"1px solid lightgray", "padding": "20px 10px", position: "relative"}}>
                 <Form
                     name="normal_login"
                     className="login-form"
                     onFinish={onSubmit}
-                    style={{"maxWidth": "500px", }}
+                    style={{"width": "300px", height: "300px"}}
                     >
                     
                     <Row justify="center">
@@ -47,13 +53,19 @@ const Login = () => {
                         <Input type="Password" value={password} onChange={onChangePassword} placeholder='Password'/>
                     </Form.Item>
 
-                    <Button type='primary' htmlType='submit' style={{"width": "100%"}}>Log in</Button>
-                    
-                    <Row justify="center">
-                        <Col >
-                            <Link to={"/signup"}>Sign up</Link>
-                        </Col>
-                    </Row>
+                    <div style={{ textAlign: 'center' }}>
+                        {loginError ? <div style={{ color: '#e01e51', margin: '1px', fontWeight: 'bold' }}>사용자 정보가 일치하지 않습니다.</div> : null}
+                    </div>
+
+                    <div style={{ position: 'absolute', bottom: 10, left: '50%', transform: 'translateX(-50%)' }}>
+                        <Button type='primary' htmlType='submit' style={{"width": "100%", "marginBottom": "10px"}}>Log in</Button>
+                        <Row justify="center">
+                            <Col >
+                                <Link to={"/signup"} style={{marginTop:"-10px"}}>Sign up</Link>
+                            </Col>
+                        </Row>
+                    </div>
+
                 </Form>
             </div>
         </div>
