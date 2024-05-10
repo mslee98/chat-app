@@ -10,12 +10,12 @@ const Signup = () => {
 
 
     const [email, onChangeEmail] = useInput('');
-    const [pw, onChangePw] = useInput('');
+    const [password, onChangePassword] = useInput('');
 
     const onSubmit = useCallback(() => {
-        axios.post('/api/user', {
+        axios.post('/api/user/signup', {
             email,
-            pw
+            password
         })
         .then((res) => {
             console.log("success")
@@ -23,7 +23,7 @@ const Signup = () => {
         .catch((error) => {
             console.log(error)
         })
-    }, [email, pw])
+    }, [email, password])
 
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: "100vh"}}>
@@ -48,7 +48,7 @@ const Signup = () => {
                 </Form.Item>
 
                 <Form.Item name="pw" label="Password">
-                    <Input type="Password" value={pw} onChange={onChangePw} placeholder='Password'/>
+                    <Input type="Password" value={password} onChange={onChangePassword} placeholder='Password'/>
                 </Form.Item>
 
                 <Button type='primary' htmlType='submit' style={{"width": "100%"}}>Sign Up</Button>

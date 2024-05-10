@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
+import axios from 'axios';
 import { Button, Col, Form, Input, Row } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { Link } from 'react-router-dom';
@@ -7,10 +8,19 @@ import useInput from '@hooks/useInput';
 const Login = () => {
 
     const [email, onChangeEmail] = useInput('');
-    const [pw, onChangePw] = useInput('');
+    const [password, onChangePassword] = useInput('');
 
     const onSubmit = () => {
-        console.log("submit!~!!")
+        axios.post('/api/user/login', {
+            "username": email,
+            password
+        })
+        .then((res) => {
+            console.log("success")
+        })
+        .catch((error) => {
+            console.log(error)
+        })
     }
 
     return (
@@ -34,7 +44,7 @@ const Login = () => {
                     </Form.Item>
 
                     <Form.Item name="pw">
-                        <Input type="Password" value={pw} onChange={onChangePw} placeholder='Password'/>
+                        <Input type="Password" value={password} onChange={onChangePassword} placeholder='Password'/>
                     </Form.Item>
 
                     <Button type='primary' htmlType='submit' style={{"width": "100%"}}>Log in</Button>

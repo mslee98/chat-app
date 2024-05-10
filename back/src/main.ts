@@ -2,12 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express'; //와 이거 없으면 Swagger 안나옴
-import { ValidationPipe } from '@nestjs/common';
+import * as passport from 'passport'; // commonjs 와 es module 차이 commonjs에는 default가 없음
+import * as cookieParser from 'cookie-parser';
+import * as session from 'express-session';
 
 declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.use(passport.initialize());
+  app.use(passport.session());
   
   const config = new DocumentBuilder()
     .setTitle('chat-app API')
@@ -20,6 +24,22 @@ async function bootstrap() {
   
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+
+  app.use(cookieParser());
+  app.use(
+    session({
+      resave: false,
+      saveUninitialized: false,
+      secret: 'mslee',
+      cookie: {
+        httpOnly: true,
+      },
+    }),
+  );
+
+  // passport 사용할거면 사용해줘야 하네
+
   
   await app.listen(port);
   console.log(`Listen on PORT ${port}`)
@@ -30,3 +50,4 @@ async function bootstrap() {
   }
 }
 bootstrap();
+
