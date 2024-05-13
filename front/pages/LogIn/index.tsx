@@ -2,10 +2,22 @@ import React, { ChangeEvent, useCallback, useState } from 'react';
 import axios from 'axios';
 import { Button, Col, Form, Input, Row } from 'antd';
 import Title from 'antd/es/typography/Title';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import useInput from '@hooks/useInput';
+import useSWR from 'swr';
+import fetcher from '@utils/fetcher';
 
 const Login = () => {
+
+    /**
+     * swr - vercel에서 만든 react hook으로 캐시 데이터를 우선 사용하며 fetch 요청(재검증)을 함
+     * 빠른 반응성과 최신 데이터를 동시 제공
+     * 
+     * mutate - 주로 캐시된 데이터를 임시로 업데이트(Optimistic UI)
+     * 
+     * revalidate - 주어진 키에 대한 캐시를 갱신하고 데이터를 서버에서 다시 가져오는 것을 강제함
+     */
+    const { data: userData, error, mutate } = useSWR('/api/user', fetcher);
 
     const [email, onChangeEmail] = useInput('');
     const [password, onChangePassword] = useInput('');
@@ -20,14 +32,19 @@ const Login = () => {
             "username": email, //passport-local은 username으로만 받음
             password
         })
-        .then((res) => {
-            console.log("success")
+        .then(() => {
+            mutate();
         })
         .catch((error) => {
             console.log(error)
             setLoginError(error.response?.status === 401)
         })
     }, [email, password])
+
+    console.log(`userData : ${userData}`)
+    if(userData) {
+        return <Redirect to="Workspace"/>
+    }
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>

@@ -6,12 +6,10 @@ import { PassportStrategy } from "@nestjs/passport";
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
     constructor(private authService: AuthService) {
-        // super({ usernameFiled: 'email', passwordField: 'password' });
-        super();
+        super({ usernameFiled: 'email', passwordField: 'password' });
     }
 
     async validate(email: string, password: string, done: CallableFunction) {
-        console.log("???")
         const user = await this.authService.validaterUser(email, password);
 
         if(!user) {

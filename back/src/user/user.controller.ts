@@ -1,4 +1,4 @@
-import { Body, Controller, ForbiddenException, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
@@ -16,12 +16,18 @@ export class UserController {
         private userService: UserService
     ) {}
 
+    @ApiOperation({ summary: 'Get-User-Info'})
+    @Get()
+    async getUserInfo(@User() user: Users) {
+        console.log("sssssssssssss",user)
+        return user || false;
+    }
+
     @ApiOperation({ summary: 'Log-In'})
     @Post('login')
-    @UseGuards(LocalAuthGuard)
+    @UseGuards(LocalAuthGuard)// new LocalAuthGuard()로 해도 상관은 없지만 LocalAuthGuard라고 하면 Nest에서 임시 인스턴스를 생성해준다고 함.
     // @UseGuards(AuthGuard('local'))
     async Login(@User() user: Users) {
-        console.log("!!!!user : ", user)
         return user 
     }
 
@@ -30,14 +36,10 @@ export class UserController {
     @UseGuards(NotLoggedInGuard)
     async Signup(@Body() data: JoinRequestDto) {
 
-        console.log("들어오는 data", data)
-
         const result = await this.userService.join(
             data.email,
             data.password
         );
-
-        console.log("여기까지 왔나?")
     }
 
 }

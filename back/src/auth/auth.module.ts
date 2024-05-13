@@ -12,6 +12,7 @@ import { Users } from 'src/entities/Users';
     PassportModule.register({ session: true }),
     TypeOrmModule.forFeature([Users]),
   ],
-  providers: [AuthService, LocalStrategy, LocalSerializer]
+  providers: [AuthService, LocalStrategy, LocalSerializer],
+  exports: [AuthModule]
 })
 export class AuthModule {}

@@ -38,8 +38,9 @@ async function bootstrap() {
     }),
   );
 
-  // passport 사용할거면 사용해줘야 하네
-
+  // passport 사용할거면 사용해줘야 하네 - 이거 없으면 passport에서 serializer할 수 없음
+  app.use(passport.initialize());
+  app.use(passport.session());
   
   await app.listen(port);
   console.log(`Listen on PORT ${port}`)

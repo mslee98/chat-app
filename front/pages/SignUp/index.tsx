@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Form, Row, Col, Button, Input} from 'antd';
 import useInput from '@hooks/useInput';
 import Title from 'antd/es/typography/Title';
@@ -11,6 +11,7 @@ const Signup = () => {
 
     const [email, onChangeEmail] = useInput('');
     const [password, onChangePassword] = useInput('');
+    const [signCheck, setSignCheck] = useState(false);
 
     const onSubmit = useCallback(() => {
         axios.post('/api/user/signup', {
@@ -19,9 +20,11 @@ const Signup = () => {
         })
         .then((res) => {
             console.log("success")
+            setSignCheck(true);
         })
         .catch((error) => {
-            console.log(error)
+            console.log("가입 에러",error)
+            setSignCheck(false);
         })
     }, [email, password])
 
@@ -50,6 +53,14 @@ const Signup = () => {
                     <Form.Item name="pw" label="Password">
                         <Input type="Password" value={password} onChange={onChangePassword} placeholder='Password'/>
                     </Form.Item>
+
+                    {signCheck? 
+                    <Row justify="center">
+                        <Col>
+                            <Link to={'/login'} >login 하러 가기</Link>
+                        </Col>
+                    </Row>
+                    : null}
 
                     <div style={{width:'80%', position: 'absolute', bottom: 10, left: '50%', transform: 'translateX(-50%)' }}>
                         <Button type='primary' htmlType='submit' style={{"width": "100%"}}>Sign Up</Button>
