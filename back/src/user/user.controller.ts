@@ -24,6 +24,21 @@ export class UserController {
         return user || false;
     }
 
+
+    /**
+     * 임시용 친구관리 이런거 아직 관계를 정의하지 않아서 그럼
+     * @returns 모든 사용자 정보
+     */
+    @ApiOperation({ summary: 'Get-User-All-Info'})
+    @Get('getAllUsers')
+    async getUserAllInfo() {
+        const result = this.userService.getAllUsers();
+
+        console.log("@@@@@@@@@@@@@@@@@@@@유저정보 : ", result)
+
+        return result;
+    }
+
     @ApiOperation({ summary: 'Log-In'})
     @Post('login')
     @UseGuards(LocalAuthGuard)// new LocalAuthGuard()로 해도 상관은 없지만 LocalAuthGuard라고 하면 Nest에서 임시 인스턴스를 생성해준다고 함.
@@ -49,7 +64,8 @@ export class UserController {
 
         const result = await this.userService.join(
             data.email,
-            data.password
+            data.password,
+            data.nickname
         );
     }
 

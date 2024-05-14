@@ -11,12 +11,14 @@ const Signup = () => {
 
     const [email, onChangeEmail] = useInput('');
     const [password, onChangePassword] = useInput('');
+    const [nickname, onChangeNickname] = useInput('');
     const [signCheck, setSignCheck] = useState(false);
 
     const onSubmit = useCallback(() => {
         axios.post('/api/user/signup', {
             email,
-            password
+            password,
+            nickname
         })
         .then((res) => {
             console.log("success")
@@ -35,7 +37,7 @@ const Signup = () => {
                     name="normal_login"
                     className="login-form"
                     onFinish={onSubmit}
-                    style={{"width": "600px", height: "250px"}}
+                    style={{"width": "600px", height: "350px"}}
                     labelCol={{span:3}}
                     wrapperCol={{span:20}}
                     >
@@ -52,6 +54,10 @@ const Signup = () => {
 
                     <Form.Item name="pw" label="Password">
                         <Input type="Password" value={password} onChange={onChangePassword} placeholder='Password'/>
+                    </Form.Item>
+
+                    <Form.Item name="nickname" label="Nickname">
+                        <Input type="text" value={nickname} onChange={onChangeNickname} placeholder='Nickname'/>
                     </Form.Item>
 
                     {signCheck? 

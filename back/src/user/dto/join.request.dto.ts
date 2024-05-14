@@ -17,4 +17,12 @@ export class JoinRequestDto {
     description: '비밀번호',
   })
   public password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    example: 'mslee98',
+    description: '사용자 닉네임'
+  })
+  public nickname: string;
 }

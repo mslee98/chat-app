@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './entities/Users';
+import { DMs } from './entities/Dms';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { Users } from './entities/Users';
       database: 'chatapp',
       autoLoadEntities: true,
       entities: [
-        Users
+        Users,
+        DMs
       ],
       keepConnectionAlive: true,
       charset: 'utf8mb4_general_ci',

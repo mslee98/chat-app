@@ -12,4 +12,7 @@ export class Users {
 
     @Column('varchar', {name: 'password', length: 100})
     password: string;
+
+    @Column('varchar', {name: 'nickname', length: 100})
+    nickname: string;
 }

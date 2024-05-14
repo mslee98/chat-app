@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { DMs } from 'src/entities/Dms';
 import { Users } from 'src/entities/Users';
 import { DataSource } from 'typeorm';
 
@@ -13,7 +14,8 @@ const dataSource = new DataSource({
     password: '1234',
     database: 'chatapp',
     entities: [
-    Users
+    Users,
+    DMs
     ],
     synchronize: true,
     logging: true

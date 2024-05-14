@@ -26,7 +26,7 @@ export class LocalSerializer extends PassportSerializer {
         return await this.userRepository
         .findOneOrFail({
             where: { id: +userId },
-            select: ['email'],
+            select: ['email', 'nickname'],
         })
         .then((user) => {
             done(null, user);
