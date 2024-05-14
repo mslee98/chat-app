@@ -1,25 +1,41 @@
 import { IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
-import { Breadcrumb, Layout, Menu } from 'antd';
+import { Avatar, Breadcrumb, Layout, Menu, Space } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import { Content, Header } from 'antd/es/layout/layout';
-import React from 'react'
-import { Redirect } from 'react-router-dom';
+import React, { useCallback } from 'react'
+import { Redirect, Route } from 'react-router-dom';
 import useSWR from 'swr';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Workspace = () => {
 
     const {data: userData, error, mutate} = useSWR<IUser>('/api/user', fetcher)
-    console.log(` userData : ${userData}`);
+
+    const onLogOut = useCallback(() => {
+        axios.post('api/user/logout', null)
+        .then(() => {
+            mutate();
+        })
+        .catch((error) => {
+            console.dir(error);
+            toast.error(error.response?.data, {position: 'bottom-center'})
+        })
+    }, [])
 
     if(!userData) {
-        <Redirect to='Login' />
+
+        console.log("userData : ",userData)
+
+        return <Redirect to='Login' />
     }
 
     return (
         <>
             <Layout  style={{height: '100vh'}}>
-                <Header style={{display: 'flox', alignItems: 'center', justifyContent: 'spaceBetween'}}>
+                <Header style={{display: 'flex', alignItems: 'center', justifyContent: 'spaceBetween'}}>
                     <div className="demo-logo" />
                     <Menu
                         theme="dark"
@@ -28,8 +44,18 @@ const Workspace = () => {
                         <Menu.Item>Menu1</Menu.Item>
                         <Menu.Item>Menu2</Menu.Item>
                         <Menu.Item>Menu3</Menu.Item>
-                        <Menu.Item style={{marginLeft:'auto'}}>회원정보</Menu.Item>
                     </Menu>
+                    <div style={{marginLeft:'auto'}}>
+                        <Space size={4}>
+                            <Space wrap size={32}>
+                                <Avatar size={32} icon={<UserOutlined />} />
+                            </Space>
+                            <div style={{color:'white'}}>{userData?.email}</div>
+                                
+                            <LogoutOutlined onClick={onLogOut} style={{color: 'white'}}/>
+                        </Space>
+                    </div>
+
                     
                 </Header>
 

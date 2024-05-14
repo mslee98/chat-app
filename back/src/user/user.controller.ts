@@ -1,12 +1,13 @@
-import { Body, Controller, ForbiddenException, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, Post, Req, Res, Response, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { UserService } from './user.service';
 import { User } from 'src/common/decorators/user.decorator';
 import { Users } from 'src/entities/Users';
 import { NotLoggedInGuard } from 'src/auth/not-logged-in.guard';
 import { JoinRequestDto } from './dto/join.request.dto';
+import { LoggedInGuard } from 'src/auth/logged-in.guard';
 
 @ApiTags('USER')
 @Controller('/api/user')
@@ -19,7 +20,7 @@ export class UserController {
     @ApiOperation({ summary: 'Get-User-Info'})
     @Get()
     async getUserInfo(@User() user: Users) {
-        console.log("sssssssssssss",user)
+        console.log("mutate 호출",user)
         return user || false;
     }
 
@@ -29,6 +30,16 @@ export class UserController {
     // @UseGuards(AuthGuard('local'))
     async Login(@User() user: Users) {
         return user 
+    }
+
+    @ApiCookieAuth('connect.sid')
+    @ApiOperation({ summary: 'Log-Out'})
+    @Post('logout')
+    @UseGuards(LoggedInGuard)
+    async LogOut(@Response() res) {
+        console.log("??????????????????")
+        res.clearCookie('connect.sid', { httpOnly: true});
+        return res.send('ok');
     }
 
     @ApiOperation({ summary: 'Sign-Up'})
