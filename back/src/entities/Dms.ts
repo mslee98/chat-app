@@ -3,7 +3,7 @@ import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, Update
 
 @Index('dms_ibfk_2', ['SenderId'], {})
 @Index('dms_ibfk_3', ['ReceiverId'], {})
-@Entity({ schema: 'sleact', name: 'dms' })
+@Entity({ schema: 'chatapp', name: 'dms' })
 export class DMs {
     @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
     id: number;

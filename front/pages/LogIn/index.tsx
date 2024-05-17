@@ -43,7 +43,7 @@ const Login = () => {
 
     console.log(`userData : ${userData}`)
     if(userData) {
-        return <Redirect to="Workspace"/>
+        return <Redirect to="workspace/myWorkspace/channel/myChannel"/>
     }
 
     return (

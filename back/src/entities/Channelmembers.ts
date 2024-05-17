@@ -1,6 +1,8 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, UpdateDateColumn } from "typeorm";
 import { Channels } from "./Channels";
+import { Users } from "./Users";
 
+@Index('UserId', ['UserId'], {})
 @Entity({schema: 'chatapp', name: 'channelmembers'})
 export class ChannelMembers {
     @CreateDateColumn()
@@ -15,6 +17,18 @@ export class ChannelMembers {
     @Column('int', { primary: true, name: 'UserId' })
     UserId: number;
 
+    @ManyToOne(() => Channels, (channels) => channels.ChannelMembers, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
     @JoinColumn([{ name: 'ChannelId', referencedColumnName: 'id' }])
     Channel: Channels;
+    
+    @ManyToOne(() => Users, (users) => users.ChannelMembers, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    @JoinColumn([{name: 'UserId', referencedColumnName: 'id'}])
+    User: Users;
+
 }

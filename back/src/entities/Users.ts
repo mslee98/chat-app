@@ -1,4 +1,8 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { ChannelMembers } from "./Channelmembers";
+import { WorkspaceMembers } from "./Workspacemembers";
+import { Workspaces } from "./Workspaces";
+import { Channels } from "./Channels";
 
 @Index('email', ['email'], {unique: true})
 @Entity({ schema: 'chatapp', name: 'users' })
@@ -15,4 +19,47 @@ export class Users {
 
     @Column('varchar', {name: 'nickname', length: 100})
     nickname: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @DeleteDateColumn()
+    deletedAt: Date | null;
+
+    @OneToMany(() => ChannelMembers, (channelMembers) => channelMembers.User)
+    ChannelMembers: ChannelMembers[];
+
+    @OneToMany(() => WorkspaceMembers, (WorkspaceMembers) => WorkspaceMembers.User)
+    WorkspaceMembers: WorkspaceMembers[]
+
+    @ManyToMany(() => Workspaces, (workspaces) => workspaces.Members)
+    @JoinTable({
+        name: 'workspacemembers',
+        joinColumn: {
+            name: 'UserId',
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'WorkspaceId',
+            referencedColumnName: 'id',
+        },
+    })
+    Workspaces: Workspaces[];
+
+    @ManyToMany(() => Channels, (channels) => channels.Members)
+    @JoinTable({
+        name: 'channelmembers',
+        joinColumn: {
+            name: 'UserId',
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'ChannelId',
+            referencedColumnName: 'id',
+        },
+    })
+    Channels: Channels[];
 }

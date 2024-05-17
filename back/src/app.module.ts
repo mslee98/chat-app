@@ -7,10 +7,16 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './entities/Users';
 import { DMs } from './entities/Dms';
+import { DmsModule } from './dms/dms.module';
+import { Workspaces } from './entities/Workspaces';
+import { WorkspaceMembers } from './entities/Workspacemembers';
+import { ChannelMembers } from './entities/Channelmembers';
+import { Channels } from './entities/Channels';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forFeature([Users, WorkspaceMembers, ChannelMembers]),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -21,7 +27,11 @@ import { DMs } from './entities/Dms';
       autoLoadEntities: true,
       entities: [
         Users,
-        DMs
+        // DMs
+        Workspaces,
+        WorkspaceMembers,
+        Channels,
+        ChannelMembers
       ],
       keepConnectionAlive: true,
       charset: 'utf8mb4_general_ci',
@@ -30,6 +40,7 @@ import { DMs } from './entities/Dms';
     }),
     AuthModule,
     UserModule,
+    DmsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

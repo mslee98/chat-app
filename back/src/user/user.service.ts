@@ -4,12 +4,18 @@ import { Users } from 'src/entities/Users';
 import * as bcrypt from 'bcrypt';
 import { DataSource, Repository } from 'typeorm';
 import { Channels } from 'src/entities/Channels';
+import { query } from 'express';
+import { WorkspaceMembers } from 'src/entities/Workspacemembers';
+import { ChannelMembers } from 'src/entities/Channelmembers';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(Users)
         private userRepository: Repository<Users>,
+
+        @InjectRepository(WorkspaceMembers)
+        private workspaceMembersRepository: Repository<WorkspaceMembers>,
         
         private dataSource: DataSource,
     ) {}
@@ -49,12 +55,18 @@ export class UserService {
                 nickname
             })
 
-            console.log("가입", returned.id ,"id값으로 채널에 넣어줘야 함")
+            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", returned)
 
-            await queryRunner.manager.getRepository(Channels).save({
-                
+            const workspaceMember = queryRunner.manager.getRepository(WorkspaceMembers).create();
+            workspaceMember.UserId = returned.id;
+            workspaceMember.WorkspaceId = 1;
+
+            await queryRunner.manager.getRepository(WorkspaceMembers).save(workspaceMember);
+
+            await queryRunner.manager.getRepository(ChannelMembers).save({
+                UserId: returned.id,
+                ChannelId: 1                
             })
-
 
             await queryRunner.commitTransaction();
 

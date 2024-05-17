@@ -1,7 +1,10 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ChannelMembers } from "./Channelmembers";
+import { Workspaces } from "./Workspaces";
+import { Users } from "./Users";
 
-@Entity({ schema: 'chatapp', name: 'channels' })
+@Index('WorkspaceId', ['WorkspaceId'], {})
+@Entity({ schema: 'chatapp' })
 export class Channels {
     @PrimaryGeneratedColumn({type: 'int', name: 'id'})
     id: number;
@@ -15,6 +18,8 @@ export class Channels {
     @CreateDateColumn()
     updatedAt: Date;
 
+    @Column('int', { name: 'WorkspaceId', nullable: true})
+    WorkspaceId: number | null;
 
     /**
      * 채녈과 채널멤버스 관계 설정
@@ -24,4 +29,14 @@ export class Channels {
         cascade: ['insert']
     })
     ChannelMembers: ChannelMembers[];
+
+    @ManyToOne(() => Workspaces, (workspace) => workspace.Channels, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    @JoinColumn([{ name: 'WorkspaceId', referencedColumnName: 'id'}])
+    Workspace: Workspaces;
+
+    @ManyToMany(() => Users, (users) => users.Channels)
+    Members: Users[]
 }
