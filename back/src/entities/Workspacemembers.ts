@@ -20,6 +20,13 @@ export class WorkspaceMembers {
   @Column('datetime', { name: 'loggedInAt', nullable: true })
   loggedInAt: Date | null;
 
+  @ManyToOne(() => Users, (users) => users.WorkspaceMembers, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
+  @JoinColumn([{name: 'UserId', referencedColumnName: 'id'}])
+  User: Users;
+  
   //자 하나의 워크스페이스에는 여러 사람이 들어갈 수 있잖슴?
   @ManyToOne(() => Workspaces, (workspaces) => workspaces.WorkspaceMembers, {
     onDelete: 'CASCADE',
@@ -28,10 +35,4 @@ export class WorkspaceMembers {
   @JoinColumn([{ name: 'WorkspaceId', referencedColumnName: 'id'}])
   Workspace: Workspaces;
 
-  @ManyToOne(() => Users, (users) => users.WorkspaceMembers, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  })
-  @JoinColumn([{name: 'UserId', referencedColumnName: 'id'}])
-  User: Users;
 }

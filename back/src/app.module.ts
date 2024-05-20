@@ -12,6 +12,7 @@ import { Workspaces } from './entities/Workspaces';
 import { WorkspaceMembers } from './entities/Workspacemembers';
 import { ChannelMembers } from './entities/Channelmembers';
 import { Channels } from './entities/Channels';
+import { WorkspacesModule } from './workspaces/workspaces.module';
 
 @Module({
   imports: [
@@ -28,10 +29,10 @@ import { Channels } from './entities/Channels';
       entities: [
         Users,
         // DMs
-        Workspaces,
         WorkspaceMembers,
+        Workspaces,
+        ChannelMembers,
         Channels,
-        ChannelMembers
       ],
       keepConnectionAlive: true,
       charset: 'utf8mb4_general_ci',
@@ -41,6 +42,7 @@ import { Channels } from './entities/Channels';
     AuthModule,
     UserModule,
     DmsModule,
+    WorkspacesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

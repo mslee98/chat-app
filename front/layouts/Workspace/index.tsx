@@ -20,6 +20,7 @@ export const Workspace = () => {
 
     const { data: allUserData, error: userError, mutate: userMutate} = useSWR<IUser[]>('/api/user/getAllUsers', fetcher)
 
+
     const onLogOut = useCallback(() => {
         axios.post('api/user/logout', null)
             .then(() => {

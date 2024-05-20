@@ -14,7 +14,7 @@ export default class UserSeeder implements Seeder {
         }])
         const channelsRepository = dataSource.getRepository(Channels);
         await channelsRepository.insert([{
-            id: 1, name: '일반', WorkspaceId: 1
+            id: 1, name: 'myChannel', WorkspaceId: 1
         }]);
     }
 }

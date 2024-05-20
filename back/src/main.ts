@@ -2,9 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express'; //와 이거 없으면 Swagger 안나옴
-import * as passport from 'passport'; // commonjs 와 es module 차이 commonjs에는 default가 없음
-import * as cookieParser from 'cookie-parser';
-import * as session from 'express-session';
+
+
+/**
+ * 기존 commonJS에서는 require() 식으로
+ */
+import passport from 'passport'; // commonjs 와 es module 차이 commonjs에는 default가 없음
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
 
 declare const module: any;
 
