@@ -4,7 +4,7 @@ import { Avatar, Badge, Breadcrumb, Divider, FloatButton, Layout, List, Menu, Sp
 import Sider from 'antd/es/layout/Sider';
 import { Content, Header } from 'antd/es/layout/layout';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link, NavLink, Redirect, Route } from 'react-router-dom';
+import { Link, NavLink, Redirect, Route, useParams } from 'react-router-dom';
 import useSWR from 'swr';
 import { CommentOutlined, LogoutOutlined, SendOutlined, UserOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -16,10 +16,11 @@ import DirectMessage from '@pages/DirectMessage';
 
 export const Workspace = () => {
 
+    const {workspace} = useParams<{workspace: string}>()
+
     const { data: userData, error, mutate } = useSWR<IUser>('/api/user', fetcher);
 
     const { data: allUserData, error: userError, mutate: userMutate} = useSWR<IUser[]>('/api/user/getAllUsers', fetcher)
-
 
     const onLogOut = useCallback(() => {
         axios.post('api/user/logout', null)
@@ -34,7 +35,10 @@ export const Workspace = () => {
 
     const [popOpen, setPopOpen] = useState(false);
 
+    console.log("@@@@@@@@@@@@@@@@@@@@@")
+    console.log(userData)
     console.log(allUserData);
+    console.log("@@@@@@@@@@@@@@@@@@@@@")
 
 
     const [current, setCurrent] = useState('1');
@@ -77,9 +81,13 @@ export const Workspace = () => {
                 <Layout>
                     <Sider width={70} style={{backgroundColor:'#420f43', border:'none'}}>
                         <Workspaces>
-                            <WorkspaceButton>A</WorkspaceButton>
-                            <WorkspaceButton>B</WorkspaceButton>
-                            <WorkspaceButton>C</WorkspaceButton>
+                            {userData?.Workspaces?.map((ws) => {
+                                return (
+                                    <Link key={ws.id} to={`/workspace/${ws.name}/channel/myChannel`}>
+                                        <WorkspaceButton>{ws.name.slice(0,1).toUpperCase()}</WorkspaceButton>
+                                    </Link>
+                                )
+                            })}
                         </Workspaces>
                     </Sider>
                     <div style={{height: "100%", backgroundColor: '#420f43'}}>

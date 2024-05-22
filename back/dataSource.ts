@@ -23,7 +23,7 @@ const dataSource = new DataSource({
     ChannelMembers,
     Channels,
     ],
-    synchronize: true,
+    synchronize: false,
     logging: true
 })
 

@@ -36,7 +36,7 @@ import { WorkspacesModule } from './workspaces/workspaces.module';
       ],
       keepConnectionAlive: true,
       charset: 'utf8mb4_general_ci',
-      synchronize: true,
+      synchronize: false,
       logging: true
     }),
     AuthModule,

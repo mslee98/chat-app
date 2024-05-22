@@ -11,6 +11,8 @@ export class WorkspacesController {
 
     @Get()
     getMyWorkspaces(@User() user: Users) {
+
+        console.log("dddddddddddddddddddddddddddddddddddddd")
         return this.workspacesService.findByWorkspaces(user.id);
     }
 
