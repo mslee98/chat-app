@@ -5,6 +5,7 @@ import { Users } from './src/entities/Users';
 import { WorkspaceMembers } from './src/entities/Workspacemembers';
 import { Workspaces } from './src/entities/Workspaces';
 import { DataSource } from 'typeorm';
+import { ChannelChats } from './src/entities/ChannelChats';
 
 
 dotenv.config() // 이거 못찾은 이유가 tsconfig.json => esMuduleInterop: true로 하면 해결할 수 있음
@@ -22,6 +23,7 @@ const dataSource = new DataSource({
     Workspaces,
     ChannelMembers,
     Channels,
+    ChannelChats
     ],
     synchronize: false,
     logging: true

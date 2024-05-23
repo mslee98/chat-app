@@ -3,6 +3,7 @@ import { ChannelMembers } from "./Channelmembers";
 import { WorkspaceMembers } from "./Workspacemembers";
 import { Workspaces } from "./Workspaces";
 import { Channels } from "./Channels";
+import { ChannelChats } from "./ChannelChats";
 
 @Index('email', ['email'], {unique: true})
 @Entity({ schema: 'chatapp', name: 'users' })
@@ -28,6 +29,9 @@ export class Users {
 
     @DeleteDateColumn()
     deletedAt: Date | null;
+
+    @OneToMany(() => ChannelChats, (channelchats) => channelchats.User)
+    ChannelChats: ChannelChats[];
 
     @OneToMany(() => ChannelMembers, (channelMembers) => channelMembers.User)
     ChannelMembers: ChannelMembers[];

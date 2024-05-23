@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToMany, ManyTo
 import { ChannelMembers } from "./Channelmembers";
 import { Workspaces } from "./Workspaces";
 import { Users } from "./Users";
+import { ChannelChats } from "./ChannelChats";
 
 @Index('WorkspaceId', ['WorkspaceId'], {})
 @Entity({ schema: 'chatapp' })
@@ -21,10 +22,6 @@ export class Channels {
     @Column('int', { name: 'WorkspaceId', nullable: true})
     WorkspaceId: number | null;
 
-    /**
-     * 채녈과 채널멤버스 관계 설정
-     * 채
-     */
     @OneToMany(() => ChannelMembers, (channelMembers) => channelMembers.Channel, {
         cascade: ['insert']
     })
@@ -39,4 +36,8 @@ export class Channels {
 
     @ManyToMany(() => Users, (users) => users.Channels)
     Members: Users[]
+
+    @OneToMany(() => ChannelChats, (channelchats) => channelchats.Channel)
+    ChannelChats: ChannelChats[];
+
 }

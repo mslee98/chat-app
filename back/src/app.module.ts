@@ -14,6 +14,7 @@ import { ChannelMembers } from './entities/Channelmembers';
 import { Channels } from './entities/Channels';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 import { ChannelModule } from './channel/channel.module';
+import { ChannelChats } from './entities/ChannelChats';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ChannelModule } from './channel/channel.module';
         Workspaces,
         ChannelMembers,
         Channels,
+        ChannelChats
       ],
       keepConnectionAlive: true,
       charset: 'utf8mb4_general_ci',

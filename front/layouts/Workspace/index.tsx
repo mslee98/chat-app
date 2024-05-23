@@ -13,6 +13,7 @@ import { StyledListItem, StyledSubMenu, WorkspaceButton, Workspaces } from './st
 import ChatList from '@components/ChatList';
 import ChatBox from '@components/ChatBox';
 import DirectMessage from '@pages/DirectMessage';
+import Channel from '@pages/Channel';
 
 export const Workspace = () => {
 
@@ -31,7 +32,7 @@ export const Workspace = () => {
     console.log("###################")
 
     const onLogOut = useCallback(() => {
-        axios.post('api/user/logout', null)
+        axios.post('/api/user/logout', null)
             .then(() => {
                 mutate();
             })
@@ -53,7 +54,7 @@ export const Workspace = () => {
 
     if (!userData) {
 
-        return <Redirect to='login' />;
+        return <Redirect to='/login' />;
     }
 
     return (
@@ -161,9 +162,6 @@ export const Workspace = () => {
                                     ))}
                                 </List> */}
 
-
-
-
                             </Menu>
                         </Sider>
                     </div>
@@ -178,7 +176,9 @@ export const Workspace = () => {
                                 {/* <ChatList />
                                 <Divider />
                                 <ChatBox /> */}
-                                <Route path="Workspace/:ss/dm/:id" component={DirectMessage} />
+                                <Channel/>
+                                {/* <Route path="workspace/:workspace/channel/:channel" component={Channel} /> */}
+                                {/* <Route path="workspace/myWorkapce/channel/myChannel" component={DirectMessage} /> */}
                             </div>
                         </Content>
 
