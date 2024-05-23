@@ -1,4 +1,4 @@
-import { IUser } from '@typings/db';
+import { IChannel, IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import { Avatar, Badge, Breadcrumb, Divider, FloatButton, Layout, List, Menu, Space, Tag } from 'antd';
 import Sider from 'antd/es/layout/Sider';
@@ -22,6 +22,14 @@ export const Workspace = () => {
 
     const { data: allUserData, error: userError, mutate: userMutate} = useSWR<IUser[]>('/api/user/getAllUsers', fetcher)
 
+    const { data: channelData, error: channelError, mutate: channelMutate } = useSWR<IChannel[]>(
+        userData ? `/api/workspace/${workspace}/channel` : null, fetcher
+    )
+
+    console.log("###################")
+    console.log(channelData);
+    console.log("###################")
+
     const onLogOut = useCallback(() => {
         axios.post('api/user/logout', null)
             .then(() => {
@@ -34,11 +42,6 @@ export const Workspace = () => {
     }, []);
 
     const [popOpen, setPopOpen] = useState(false);
-
-    console.log("@@@@@@@@@@@@@@@@@@@@@")
-    console.log(userData)
-    console.log(allUserData);
-    console.log("@@@@@@@@@@@@@@@@@@@@@")
 
 
     const [current, setCurrent] = useState('1');
@@ -118,10 +121,9 @@ export const Workspace = () => {
                                         title={'채널'}
 
                                     >
-                                        <Menu.Item color='white' title={"ss"}>ss</Menu.Item>
-                                        <Menu.Item>ss</Menu.Item>
-                                        <Menu.Item>ss</Menu.Item>
-                                        <Menu.Item>ss</Menu.Item>
+                                        {channelData?.map((channel) => (
+                                            <Menu.Item>{channel.name}</Menu.Item>
+                                        ))}
                                     </StyledSubMenu>
 
                                     <StyledSubMenu

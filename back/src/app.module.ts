@@ -13,6 +13,7 @@ import { WorkspaceMembers } from './entities/Workspacemembers';
 import { ChannelMembers } from './entities/Channelmembers';
 import { Channels } from './entities/Channels';
 import { WorkspacesModule } from './workspaces/workspaces.module';
+import { ChannelModule } from './channel/channel.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { WorkspacesModule } from './workspaces/workspaces.module';
     UserModule,
     DmsModule,
     WorkspacesModule,
+    ChannelModule,
   ],
   controllers: [AppController],
   providers: [AppService],
