@@ -19,6 +19,7 @@ const Channel = () => {
 
     console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     console.log(chatData)
+    
     console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
 
     const onSubmitForm = useCallback(() => {
