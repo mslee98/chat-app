@@ -2,7 +2,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { Avatar, List } from 'antd';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
-
+ 
 const ChatList = () => {
     return (
         <div style={{flex:8.5}}>
